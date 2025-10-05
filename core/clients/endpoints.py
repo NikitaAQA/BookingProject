@@ -5,4 +5,4 @@ class Endpoints(Enum):
     PING_ENDPOINT = "/ping"
     AUTH_ENDPOINT = "/auth"
     BOOKING_ENDPOINT = "/booking"
-    BOOKING_ENDPOINT_ID = "/booking/:id"
+    BOOKING_ENDPOINT_ID = "/booking/:{id}"

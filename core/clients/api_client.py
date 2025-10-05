@@ -67,30 +67,15 @@ class APIClient:
         with allure.step("Updating header  with authorization"):
             self.session.headers.update({"Authorization": f"Bearer{token}"})
 
-    def get_booking_by_id(self):
-        with allure.step("Getting booking information for ID"):
-            url = f"{self.base_url}{Endpoints.BOOKING_ENDPOINT_ID}"
+    def get_booking_by_id(self, booking_id):
+        with allure.step(f"Getting booking information for ID {booking_id}"):
+            endpoint = Endpoints.BOOKING_ENDPOINT_ID.value.replace(":{id}", str(booking_id))
+            url = f"{self.base_url}{endpoint}"
             response = self.session.get(url)
             response.raise_for_status()
-        with allure.step("Assert status code"):
-            assert response.status_code == 200, f"Expected status 200 but god {response.status_code}"
-        with allure.step("Verifying response JSON structure"):
-            response_json = response.json()
-            expected_structure = {
-                "firstname": "Sally",
-                "lastname": "Brown",
-                "totalprice": 111,
-                "depositpaid": True,
-                "bookingdates": {
-                    "checkin": "2013-02-23",
-                    "checkout": "2014-10-23"
-                },
-                "additionalneeds": "Breakfast"
-            }
-            assert response_json["firstname"] == expected_structure["firstname"]
-            assert response_json["lastname"] == expected_structure["lastname"]
-            assert response_json["totalprice"] == expected_structure["totalprice"]
-            assert response_json["depositpaid"] == expected_structure["depositpaid"]
-            assert response_json["bookingdates"] == expected_structure["bookingdates"]
-            assert response_json["additionalneeds"] == expected_structure["additionalneeds"]
-        return response_json
+        with allure.step("Checking status code is 200"):
+            assert response.status_code == 200, f"Expected status 200 but got {response.status_code}"
+        return response.json()
+
+
+
