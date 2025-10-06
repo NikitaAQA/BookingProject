@@ -69,8 +69,7 @@ class APIClient:
 
     def get_booking_by_id(self, booking_id):
         with allure.step(f"Getting booking information for ID {booking_id}"):
-            endpoint = Endpoints.BOOKING_ENDPOINT_ID.value.replace(":{id}", str(booking_id))
-            url = f"{self.base_url}{endpoint}"
+            url = f"{self.base_url}/booking/{booking_id}"
             response = self.session.get(url)
             response.raise_for_status()
         with allure.step("Checking status code is 200"):
