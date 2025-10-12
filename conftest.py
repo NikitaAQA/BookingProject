@@ -1,4 +1,3 @@
-from string import digits
 
 from core.clients.api_client import APIClient
 import pytest
